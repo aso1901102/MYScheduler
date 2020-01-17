@@ -1,5 +1,6 @@
 package jp.ac.asojuku.myscheduler
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -32,12 +33,17 @@ class MainActivity : AppCompatActivity() {
         //Realmからスケジュールの全データを取得
         //findAll()はselect*formみたいなメソッド
         val schedules = this.realm.where<Schedule>().findAll()
+        //RecyclerViewリスト用のadapterを取得
+        val adapter = ScheduleAdapter(schedules)
         //取得したアダプターをリストに設定
-        this.list.adapter;
+        this.list.adapter = adapter;
 
+        //fabをクリックした時のメソッドを設定
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            //クリックした時の処理（シュケジュール編集画面へ遷移）
+            val intent = Intent(this,ScheduleEditActivity::class.java)
+            //intentの遷移先を起動
+            this.startActivity(intent)
         }
     }
 
